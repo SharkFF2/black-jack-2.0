@@ -16,15 +16,6 @@ export const BankruptcyDisplay: React.FC<BankruptcyDisplayProps> = ({
   useEffect(() => {
     if (show) {
       setIsVisible(true);
-      // Auto-hide after 4 seconds (longer than winnings since user needs to read)
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-        setTimeout(() => {
-          onHide();
-        }, 300); // Allow fade out animation
-      }, 4000);
-
-      return () => clearTimeout(timer);
     }
   }, [show, onHide]);
 
