@@ -59,7 +59,7 @@ const calculateHandValue = (hand) => {
   return value;
 };
 
-const Card = ({ card, hidden, delay = 0 }) => {
+const Card = ({ card, hidden, delay = 0, onClick }) => {
   const isRed = card.suit === "♥" || card.suit === "♦";
 
   if (hidden) {
@@ -74,6 +74,7 @@ const Card = ({ card, hidden, delay = 0 }) => {
     <div
       className={`card ${isRed ? "red" : "black"}`}
       style={{ animationDelay: `${delay}ms` }}
+      onClick={onClick}
     >
       <div className="card-corner top-left">
         <div className="rank">{card.rank}</div>
@@ -83,6 +84,96 @@ const Card = ({ card, hidden, delay = 0 }) => {
       <div className="card-corner bottom-right">
         <div className="rank">{card.rank}</div>
         <div className="suit">{card.suit}</div>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * CardDetailModal component - Shows detailed information about a card
+ */
+const CardDetailModal = ({ card, onClose }) => {
+  if (!card) return null;
+
+  const isRed = card.suit === "♥" || card.suit === "♦";
+  const suitNames = {
+    "♠": "Spades",
+    "♥": "Hearts",
+    "♦": "Diamonds",
+    "♣": "Clubs",
+  };
+  const rankNames = {
+    J: "Jack",
+    Q: "Queen",
+    K: "King",
+    A: "Ace",
+  };
+  const displayRank = rankNames[card.rank] || card.rank;
+  const displaySuit = suitNames[card.suit];
+
+  const cardValue = () => {
+    if (card.rank === "A") return "11 (or 1)";
+    if (["J", "Q", "K"].includes(card.rank)) return "10";
+    return card.rank;
+  };
+
+  return (
+    <div className="card-detail-overlay" onClick={onClose}>
+      <div
+        className="card-detail-container"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="card-detail-close" onClick={onClose}>
+          ✕
+        </button>
+
+        <div className="card-detail-content">
+          {/* Centered Card */}
+          <div className="card-detail-left">
+            <div className={`card-large ${isRed ? "red" : "black"}`}>
+              <div className="card-corner top-left">
+                <div className="rank">{card.rank}</div>
+                <div className="suit">{card.suit}</div>
+              </div>
+              <div className="card-center-large">{card.suit}</div>
+              <div className="card-corner bottom-right">
+                <div className="rank">{card.rank}</div>
+                <div className="suit">{card.suit}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Details Panel */}
+          <div className="card-detail-right">
+            <h2 className="card-detail-title">
+              {displayRank} of {displaySuit}
+            </h2>
+            <div className="card-detail-info">
+              <div className="detail-row">
+                <span className="detail-label">Rank:</span>
+                <span className="detail-value">{displayRank}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Suit:</span>
+                <span className="detail-value">{displaySuit}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Suit Symbol:</span>
+                <span
+                  className={`detail-value suit-symbol-value ${
+                    isRed ? "text-red" : "text-black"
+                  }`}
+                >
+                  {card.suit}
+                </span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Blackjack Value:</span>
+                <span className="detail-value font-bold">{cardValue()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -125,6 +216,7 @@ export default function BlackjackGame() {
   const [gameState, setGameState] = useState("betting"); // betting, playing, dealerTurn, gameOver
   const [message, setMessage] = useState("Place your bet");
   const [dealerRevealed, setDealerRevealed] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const dealCard = (hand) => {
     if (deck.length === 0) {
@@ -269,6 +361,10 @@ export default function BlackjackGame() {
 
   return (
     <div className="game-container">
+      <CardDetailModal
+        card={selectedCard}
+        onClose={() => setSelectedCard(null)}
+      />
       <div className="game-board">
         <div className="header">
           <h1 className="title">BLACKJACK</h1>
@@ -295,6 +391,9 @@ export default function BlackjackGame() {
                   card={card}
                   hidden={i === 1 && !dealerRevealed}
                   delay={i * 150}
+                  onClick={() =>
+                    !(i === 1 && !dealerRevealed) && setSelectedCard(card)
+                  }
                 />
               ))}
             </div>
@@ -309,7 +408,12 @@ export default function BlackjackGame() {
             </div>
             <div className="cards">
               {playerHand.map((card, i) => (
-                <Card key={card.id} card={card} delay={i * 150} />
+                <Card
+                  key={card.id}
+                  card={card}
+                  delay={i * 150}
+                  onClick={() => setSelectedCard(card)}
+                />
               ))}
             </div>
           </div>
