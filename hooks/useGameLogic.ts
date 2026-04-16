@@ -101,8 +101,7 @@ export const useGameLogic = () => {
 
       const value = calculateHandValue(newHand);
       if (value > 21) {
-        setMessage("Bust! Dealer wins.");
-        setGameState("gameOver");
+        endGame(newHand, dealerHand);
       } else if (value === 21) {
         setGameState("dealerTurn");
         setDealerRevealed(true);
@@ -160,8 +159,7 @@ export const useGameLogic = () => {
 
       const value = calculateHandValue(newHand);
       if (value > 21) {
-        setMessage("Bust! Dealer wins.");
-        setGameState("gameOver");
+        endGame(newHand, dealerHand);
       } else {
         // After doubling, player must stand
         setGameState("dealerTurn");
@@ -244,7 +242,6 @@ export const useGameLogic = () => {
 
       setPlayerMoney((prev) => prev + winnings);
       setMessage(msg);
-
 
       // Show winnings display after delay if player won
       if (winnings > 0) {
