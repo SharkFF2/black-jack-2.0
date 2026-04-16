@@ -5,3 +5,5 @@ export { Hand } from "./Hand";
 export { BettingArea } from "./BettingArea";
 export { GameControls } from "./GameControls";
 export { Header } from "./Header";
+export { WinningsDisplay } from "./WinningsDisplay";
+export { LossesDisplay } from "./LossesDisplay";

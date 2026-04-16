@@ -9,6 +9,8 @@ import {
   CardDetailModal,
   BettingArea,
   GameControls,
+  WinningsDisplay,
+  LossesDisplay,
 } from "./components";
 
 export default function BlackjackGame() {
@@ -22,12 +24,18 @@ export default function BlackjackGame() {
     dealerRevealed,
     playerValue,
     dealerValue,
+    showWinnings,
+    winnings,
+    showLosses,
+    losses,
     placeBet,
     startGame,
     hit,
     stand,
     double: doubleDown,
     resetGame,
+    hideWinnings,
+    hideLosses,
   } = useGameLogic();
 
   const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
@@ -39,6 +47,15 @@ export default function BlackjackGame() {
   const handleCardClick = (card: CardType) => {
     setSelectedCard(card);
   };
+
+  const handleHideWinnings = () => {
+    hideWinnings();
+  };
+
+  const handleHideLosses = () => {
+    hideLosses();
+  };
+
 
   return (
     <div className="game-container">
@@ -89,6 +106,19 @@ export default function BlackjackGame() {
         card={selectedCard}
         onClose={() => setSelectedCard(null)}
       />
+
+      <WinningsDisplay
+        show={showWinnings}
+        amount={winnings}
+        onHide={handleHideWinnings}
+      />
+
+      <LossesDisplay
+        show={showLosses}
+        amount={losses}
+        onHide={handleHideLosses}
+      />
+
     </div>
   );
 }

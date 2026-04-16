@@ -17,6 +17,10 @@ export const useGameLogic = () => {
   const [gameState, setGameState] = useState<GameState>("betting");
   const [message, setMessage] = useState("Place your bet");
   const [dealerRevealed, setDealerRevealed] = useState(false);
+  const [showWinnings, setShowWinnings] = useState(false);
+  const [winnings, setWinnings] = useState(0);
+  const [showLosses, setShowLosses] = useState(false);
+  const [losses, setLosses] = useState(0);
 
   /**
    * Deal a card from the deck to a hand
@@ -235,14 +239,42 @@ export const useGameLogic = () => {
         msg = "😔 Dealer wins.";
       } else {
         winnings = currentBet;
-        msg = "🤝 Push! Bet returned.";
+        msg = "Push! Bet returned.";
       }
 
       setPlayerMoney((prev) => prev + winnings);
       setMessage(msg);
+
+
+      // Show winnings display after delay if player won
+      if (winnings > 0) {
+        setWinnings(winnings);
+        setTimeout(() => {
+          setShowWinnings(true);
+        }, 200);
+      }
+
+      // Show losses display after delay if player lost
+      if (
+        winnings === 0 &&
+        currentBet > 0 &&
+        (msg.includes("Dealer wins") || msg.includes("Bust"))
+      ) {
+        setLosses(currentBet);
+        setTimeout(() => {
+          setShowLosses(true);
+        }, 200);
+      }
     },
     [currentBet],
   );
+  const hideWinnings = useCallback(() => {
+    setShowWinnings(false);
+  }, []);
+
+  const hideLosses = useCallback(() => {
+    setShowLosses(false);
+  }, []);
 
   /**
    * Reset the game for a new round
@@ -254,6 +286,10 @@ export const useGameLogic = () => {
     setGameState("betting");
     setMessage("Place your bet");
     setDealerRevealed(false);
+    setShowWinnings(false);
+    setWinnings(0);
+    setShowLosses(false);
+    setLosses(0);
     if (deck.length < 20) {
       setDeck(createDeck());
     }
@@ -274,6 +310,10 @@ export const useGameLogic = () => {
     dealerRevealed,
     playerValue,
     dealerValue,
+    showWinnings,
+    winnings,
+    showLosses,
+    losses,
 
     // Actions
     dealCard,
@@ -285,5 +325,7 @@ export const useGameLogic = () => {
     playDealerHand,
     endGame,
     resetGame,
+    hideWinnings,
+    hideLosses,
   };
 };
