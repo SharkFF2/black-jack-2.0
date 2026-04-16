@@ -415,6 +415,224 @@ body {
   transform: translateY(0);
 }
 
+/* Card Detail Modal Styles */
+.card-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.card-detail-container {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(202, 138, 4, 0.3);
+  border: 2px solid rgba(202, 138, 4, 0.4);
+  position: relative;
+  max-width: 600px;
+  width: 90%;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.card-detail-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: #f1f5f9;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.card-detail-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.card-detail-content {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-detail-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-large {
+  width: 180px;
+  height: 260px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.card-large.red {
+  color: #dc2626;
+}
+
+.card-large.black {
+  color: #1f2937;
+}
+
+.card-large .card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.card-large .card-corner.top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.card-large .card-corner.bottom-right {
+  bottom: 12px;
+  right: 12px;
+  transform: rotate(180deg);
+}
+
+.card-large .rank {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.card-large .suit {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.card-center-large {
+  font-size: 5rem;
+  opacity: 0.2;
+  line-height: 1;
+}
+
+.card-detail-right {
+  flex: 1;
+  min-width: 250px;
+}
+
+.card-detail-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fbbf24;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.card-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border-left: 4px solid rgba(202, 138, 4, 0.4);
+  transition: all 0.2s;
+}
+
+.detail-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: #fbbf24;
+}
+
+.detail-label {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.detail-value {
+  color: #f1f5f9;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.detail-value.suit-symbol-value {
+  font-size: 2rem;
+}
+
+.detail-value.suit-symbol-value.text-red {
+  color: #dc2626;
+}
+
+.detail-value.suit-symbol-value.text-black {
+  color: #1f2937;
+}
+
+.detail-value.font-bold {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.card:not(.card-back) {
+  cursor: pointer;
+}
+
+.card:not(.card-back):active {
+  transform: scale(0.98);
+}
+
 @media (max-width: 768px) {
   .game-board {
     border-radius: 40px;
@@ -434,5 +652,52 @@ body {
   .chip {
     width: 60px;
     height: 60px;
+  }
+
+  .card-detail-container {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+
+  .card-detail-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .card-large {
+    width: 140px;
+    height: 200px;
+  }
+
+  .card-large .rank {
+    font-size: 1.25rem;
+  }
+
+  .card-large .suit {
+    font-size: 1rem;
+  }
+
+  .card-center-large {
+    font-size: 3.5rem;
+  }
+
+  .card-detail-right {
+    width: 100%;
+  }
+
+  .card-detail-title {
+    font-size: 1.5rem;
+  }
+
+  .detail-row {
+    padding: 0.75rem;
+  }
+
+  .detail-label {
+    font-size: 0.85rem;
+  }
+
+  .detail-value {
+    font-size: 1rem;
   }
 }
