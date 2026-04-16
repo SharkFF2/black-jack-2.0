@@ -11,6 +11,7 @@ import {
   GameControls,
   WinningsDisplay,
   LossesDisplay,
+  BankruptcyDisplay,
 } from "./components";
 
 export default function BlackjackGame() {
@@ -28,14 +29,17 @@ export default function BlackjackGame() {
     winnings,
     showLosses,
     losses,
+    showBankruptcy,
     placeBet,
     startGame,
     hit,
     stand,
     double: doubleDown,
     resetGame,
+    resetFromBankruptcy,
     hideWinnings,
     hideLosses,
+    hideBankruptcy,
   } = useGameLogic();
 
   const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
@@ -56,6 +60,9 @@ export default function BlackjackGame() {
     hideLosses();
   };
 
+  const handleHideBankruptcy = () => {
+    hideBankruptcy();
+  };
 
   return (
     <div className="game-container">
@@ -82,23 +89,47 @@ export default function BlackjackGame() {
         <div className="controls">
           <div className="message">{message}</div>
 
-          {gameState === "betting" && (
-            <BettingArea
-              currentBet={currentBet}
-              playerMoney={playerMoney}
-              onPlaceBet={placeBet}
-              onClearBet={handleClearBet}
-              onStartGame={startGame}
-            />
-          )}
+          {gameState === "bankrupt" ? (
+            <div className="bankruptcy-controls">
+              <button
+                onClick={resetFromBankruptcy}
+                className="restart-button"
+                style={{
+                  backgroundColor: "#10b981",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 24px",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  marginTop: "20px",
+                }}
+              >
+                Start Fresh Game
+              </button>
+            </div>
+          ) : (
+            <>
+              {gameState === "betting" && (
+                <BettingArea
+                  currentBet={currentBet}
+                  playerMoney={playerMoney}
+                  onPlaceBet={placeBet}
+                  onClearBet={handleClearBet}
+                  onStartGame={startGame}
+                />
+              )}
 
-          <GameControls
-            gameState={gameState}
-            onHit={hit}
-            onStand={() => stand()}
-            onDouble={doubleDown}
-            onResetGame={resetGame}
-          />
+              <GameControls
+                gameState={gameState}
+                onHit={hit}
+                onStand={() => stand()}
+                onDouble={doubleDown}
+                onResetGame={resetGame}
+              />
+            </>
+          )}
         </div>
       </div>
 
@@ -119,6 +150,7 @@ export default function BlackjackGame() {
         onHide={handleHideLosses}
       />
 
+      <BankruptcyDisplay show={showBankruptcy} onHide={handleHideBankruptcy} />
     </div>
   );
 }

@@ -28,7 +28,12 @@ export type Hand = Card[];
 /**
  * Game state enum for tracking the current phase of the game
  */
-export type GameState = "betting" | "playing" | "dealerTurn" | "gameOver";
+export type GameState =
+  | "betting"
+  | "playing"
+  | "dealerTurn"
+  | "gameOver"
+  | "bankrupt";
 
 /**
  * Chip value type for betting

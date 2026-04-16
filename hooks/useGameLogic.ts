@@ -21,6 +21,7 @@ export const useGameLogic = () => {
   const [winnings, setWinnings] = useState(0);
   const [showLosses, setShowLosses] = useState(false);
   const [losses, setLosses] = useState(0);
+  const [showBankruptcy, setShowBankruptcy] = useState(false);
 
   /**
    * Deal a card from the deck to a hand
@@ -47,9 +48,15 @@ export const useGameLogic = () => {
       if (playerMoney >= amount && gameState === "betting") {
         setCurrentBet((prev) => prev + amount);
         setPlayerMoney((prev) => prev - amount);
+
+        // Check for bankruptcy after placing bet
+        if (playerMoney - amount === 0 && currentBet + amount > 0) {
+          // Player will have no money left after this bet
+          // We'll check after the game ends
+        }
       }
     },
-    [playerMoney, gameState],
+    [playerMoney, gameState, currentBet],
   );
 
   /**
@@ -224,24 +231,37 @@ export const useGameLogic = () => {
 
       if (playerBlackjack && dealerValue !== 21) {
         winnings = Math.floor(currentBet * 2.5);
-        msg = "🎰 BLACKJACK! You win!";
+        msg = "BLACKJACK! You win!";
       } else if (playerValue > 21) {
-        msg = "💥 Bust! Dealer wins.";
+        msg = "Bust! Dealer wins.";
       } else if (dealerValue > 21) {
         winnings = currentBet * 2;
-        msg = "🎉 Dealer busts! You win!";
+        msg = "Dealer busts! You win!";
       } else if (playerValue > dealerValue) {
         winnings = currentBet * 2;
-        msg = "🎉 You win!";
+        msg = "You win!";
       } else if (playerValue < dealerValue) {
-        msg = "😔 Dealer wins.";
+        msg = "Dealer wins.";
       } else {
         winnings = currentBet;
         msg = "Push! Bet returned.";
       }
 
-      setPlayerMoney((prev) => prev + winnings);
+      const newMoney = playerMoney + winnings;
+      setPlayerMoney(newMoney);
       setMessage(msg);
+
+      // Check for bankruptcy after game ends
+      if (
+        newMoney === 0 &&
+        (msg.includes("Dealer wins") || msg.includes("Bust"))
+      ) {
+        setTimeout(() => {
+          setGameState("bankrupt");
+          setMessage("You're bankrupt! Game Over!");
+          setShowBankruptcy(true);
+        }, 2000);
+      }
 
       // Show winnings display after delay if player won
       if (winnings > 0) {
@@ -263,14 +283,19 @@ export const useGameLogic = () => {
         }, 200);
       }
     },
-    [currentBet],
+    [currentBet, playerMoney],
   );
+
   const hideWinnings = useCallback(() => {
     setShowWinnings(false);
   }, []);
 
   const hideLosses = useCallback(() => {
     setShowLosses(false);
+  }, []);
+
+  const hideBankruptcy = useCallback(() => {
+    setShowBankruptcy(false);
   }, []);
 
   /**
@@ -292,6 +317,25 @@ export const useGameLogic = () => {
     }
   }, [deck]);
 
+  /**
+   * Reset the game after bankruptcy
+   */
+  const resetFromBankruptcy = useCallback(() => {
+    setPlayerHand([]);
+    setDealerHand([]);
+    setCurrentBet(0);
+    setPlayerMoney(1000);
+    setGameState("betting");
+    setMessage("Place your bet - Fresh start!");
+    setDealerRevealed(false);
+    setShowWinnings(false);
+    setWinnings(0);
+    setShowLosses(false);
+    setLosses(0);
+    setShowBankruptcy(false);
+    setDeck(createDeck());
+  }, []);
+
   const playerValue = calculateHandValue(playerHand);
   const dealerValue = calculateHandValue(dealerHand);
 
@@ -311,6 +355,7 @@ export const useGameLogic = () => {
     winnings,
     showLosses,
     losses,
+    showBankruptcy,
 
     // Actions
     dealCard,
@@ -322,7 +367,9 @@ export const useGameLogic = () => {
     playDealerHand,
     endGame,
     resetGame,
+    resetFromBankruptcy,
     hideWinnings,
     hideLosses,
+    hideBankruptcy,
   };
 };

@@ -7,3 +7,4 @@ export { GameControls } from "./GameControls";
 export { Header } from "./Header";
 export { WinningsDisplay } from "./WinningsDisplay";
 export { LossesDisplay } from "./LossesDisplay";
+export { BankruptcyDisplay } from "./BankruptcyDisplay";
