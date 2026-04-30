@@ -12,9 +12,14 @@ import {
   WinningsDisplay,
   LossesDisplay,
   BankruptcyDisplay,
+  MainMenu,
 } from "./components";
 
 export default function BlackjackGame() {
+  const [selectedGame, setSelectedGame] = useState<"menu" | "blackjack">(
+    "menu",
+  );
+
   const {
     playerHand,
     dealerHand,
@@ -64,8 +69,43 @@ export default function BlackjackGame() {
     hideBankruptcy();
   };
 
+  const handleSelectGame = (game: "blackjack" | "texas-holdem") => {
+    if (game === "blackjack") {
+      setSelectedGame("blackjack");
+    }
+  };
+
+  const handleBackToMenu = () => {
+    setSelectedGame("menu");
+  };
+
+  if (selectedGame === "menu") {
+    return <MainMenu onSelectGame={handleSelectGame} />;
+  }
+
   return (
     <div className="game-container">
+      <button
+        onClick={handleBackToMenu}
+        className="back-to-menu-button"
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          backgroundColor: "#6366f1",
+          color: "white",
+          border: "none",
+          padding: "10px 20px",
+          borderRadius: "6px",
+          fontSize: "14px",
+          fontWeight: "bold",
+          cursor: "pointer",
+          zIndex: 100,
+        }}
+      >
+        Back to Menu
+      </button>
+
       <div className="game-board">
         <Header playerMoney={playerMoney} />
 
