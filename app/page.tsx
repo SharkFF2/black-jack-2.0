@@ -36,6 +36,7 @@ export default function BlackjackGame() {
     losses,
     showBankruptcy,
     placeBet,
+    clearBet,
     startGame,
     hit,
     stand,
@@ -50,6 +51,7 @@ export default function BlackjackGame() {
   const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
 
   const handleClearBet = () => {
+    clearBet();
     setSelectedCard(null);
   };
 

@@ -336,6 +336,16 @@ export const useGameLogic = () => {
     setDeck(createDeck());
   }, []);
 
+  /**
+   * Clear the current bet and return money to player
+   */
+  const clearBet = useCallback(() => {
+    if (gameState === "betting" && currentBet > 0) {
+      setPlayerMoney((prev) => prev + currentBet);
+      setCurrentBet(0);
+    }
+  }, [gameState, currentBet]);
+
   const playerValue = calculateHandValue(playerHand);
   const dealerValue = calculateHandValue(dealerHand);
 
@@ -360,6 +370,7 @@ export const useGameLogic = () => {
     // Actions
     dealCard,
     placeBet,
+    clearBet,
     startGame,
     hit,
     stand,
