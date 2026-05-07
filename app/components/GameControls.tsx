@@ -1,6 +1,7 @@
 import React from "react";
 import { GameState } from "@/types";
 import { RotateCcw } from "lucide-react";
+import { Store } from "lucide-react";
 
 interface GameControlsProps {
   gameState: GameState;

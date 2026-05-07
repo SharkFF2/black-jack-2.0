@@ -9,3 +9,4 @@ export { WinningsDisplay } from "./WinningsDisplay";
 export { LossesDisplay } from "./LossesDisplay";
 export { BankruptcyDisplay } from "./BankruptcyDisplay";
 export { MainMenu } from "./MainMenu";
+export { Store } from "./Store";

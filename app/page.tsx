@@ -13,12 +13,14 @@ import {
   LossesDisplay,
   BankruptcyDisplay,
   MainMenu,
+  Store,
 } from "./components";
 
 export default function BlackjackGame() {
   const [selectedGame, setSelectedGame] = useState<"menu" | "blackjack">(
     "menu",
   );
+  const [showStore, setShowStore] = useState(false);
 
   const {
     playerHand,
@@ -81,8 +83,21 @@ export default function BlackjackGame() {
     setSelectedGame("menu");
   };
 
+  const handleOpenStore = () => setShowStore(true);
+  const handleCloseStore = () => setShowStore(false);
+
   if (selectedGame === "menu") {
-    return <MainMenu onSelectGame={handleSelectGame} />;
+    return (
+      <div className="game-container">
+        <Store
+          playerMoney={playerMoney}
+          isOpen={showStore}
+          onOpen={handleOpenStore}
+          onClose={handleCloseStore}
+        />
+        <MainMenu onSelectGame={handleSelectGame} />
+      </div>
+    );
   }
 
   return (
@@ -107,6 +122,13 @@ export default function BlackjackGame() {
       >
         Back to Menu
       </button>
+
+      <Store
+        playerMoney={playerMoney}
+        isOpen={showStore}
+        onOpen={handleOpenStore}
+        onClose={handleCloseStore}
+      />
 
       <div className="game-board">
         <Header playerMoney={playerMoney} />

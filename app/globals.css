@@ -361,6 +361,116 @@ body {
   justify-content: center;
 }
 
+.store-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(15, 23, 42, 0.92);
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  z-index: 250;
+}
+
+.store-button:hover {
+  transform: translateY(-1px);
+}
+
+.store-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 240;
+}
+
+.store-modal {
+  width: min(540px, 100%);
+  background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  padding: 2rem;
+}
+
+.store-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.store-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #fbbf24;
+}
+
+.store-close-button {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #f1f5f9;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.store-close-button:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.store-body {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.store-money-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(251, 191, 36, 0.15);
+}
+
+.store-money-display span {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.store-money-display strong {
+  color: #fbbf24;
+  font-size: 1.75rem;
+}
+
+.store-placeholder {
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
 .btn {
   padding: 0.875rem 2rem;
   border: none;
