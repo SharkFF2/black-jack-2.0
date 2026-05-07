@@ -93,13 +93,27 @@ body {
   pointer-events: none;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.game-header {
+  position: relative;
+  width: 100%;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+  text-align: center;
+}
+
+.game-header .main-menu-title {
+  margin: 0;
+}
+
+.game-header .money-display {
+  position: absolute;
+  top: 0;
+  right: 50px;
+}
+
+.game-header .store-button {
+  position: absolute;
+  top: 0;
+  left: 50px;
 }
 
 .title {
@@ -365,8 +379,8 @@ body {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  width: 52px;
-  height: 52px;
+  width: 104px;
+  height: 104px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(15, 23, 42, 0.92);
@@ -845,14 +859,14 @@ body {
 /* Main Menu Styles */
 .main-menu-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  width: min(100%, 900px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: "Space Mono", monospace;
   color: #f1f5f9;
-  padding: 2rem;
+  padding: 1rem;
   position: relative;
   overflow: hidden;
 }
@@ -868,12 +882,12 @@ body {
     radial-gradient(
       circle at 20% 50%,
       rgba(220, 38, 38, 0.1) 0%,
-      transparent 50%
+      transparent 20%
     ),
     radial-gradient(
       circle at 80% 80%,
       rgba(234, 179, 8, 0.1) 0%,
-      transparent 50%
+      transparent 20%
     );
   pointer-events: none;
 }
@@ -881,13 +895,13 @@ body {
 .main-menu {
   background: linear-gradient(135deg, #065f46 0%, #047857 50%, #059669 100%);
   border-radius: 200px;
-  padding: 4rem;
+  padding: 6rem;
   box-shadow:
     0 0 0 12px #0f172a,
     0 0 0 16px #ca8a04,
     0 20px 60px rgba(0, 0, 0, 0.5),
     inset 0 0 40px rgba(0, 0, 0, 0.3);
-  max-width: 600px;
+  max-width: 100%;
   width: 100%;
   position: relative;
   z-index: 1;
@@ -904,7 +918,7 @@ body {
   left: 20px;
   right: 20px;
   bottom: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 180px;
   pointer-events: none;
 }
@@ -920,7 +934,6 @@ body {
   text-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
   letter-spacing: 2px;
   text-align: center;
-  margin: 0;
 }
 
 .main-menu-subtitle {
